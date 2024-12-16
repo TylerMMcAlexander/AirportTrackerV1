@@ -1,0 +1,23 @@
+﻿@model Booking
+
+<p>This is the book flight page</p>
+
+<form asp-action="BookFlight" method="post">
+    <div>
+        <label class="form-label">Selected Flight</label>
+        <p>Flight ID: @ViewBag.Flight.FlightId - @ViewBag.Flight.DisplayLocation</p>
+        <input type="hidden" asp-for="FlightId" />
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="NumberOfSeats" class="form-label">Number of Seats</label>
+        <input asp-for="NumberOfSeats" type="number" min="1" class="form-control" required />
+        <span asp-validation-for="NumberOfSeats" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Book Flight</button>
+</form>

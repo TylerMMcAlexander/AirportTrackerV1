@@ -1,0 +1,29 @@
+﻿@model List<Aircraft>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<p>This is the list aircraft page</p>
+<a asp-action="AddAircraft" asp-controller="Aircraft">Add Aircraft</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Aircraft Name</th>
+            <th>Aircraft Type</th>
+            <th>Aircraft Capacity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var aircraft in Model)
+        {
+            <tr>
+                <td>@aircraft.Name</td>
+                <td>@aircraft.Type</td>
+                <td>@aircraft.Capacity</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

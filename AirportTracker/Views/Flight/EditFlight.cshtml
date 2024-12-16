@@ -1,0 +1,104 @@
+﻿@model Flight
+@{
+    var currentAircraft = "";
+    if (ViewBag.Aircrafts != null)
+    {
+        foreach(var aircraft in ViewBag.Aircrafts)
+        {
+            if (aircraft.AircraftId == Model.AircraftId)
+            {
+                currentAircraft = aircraft.Name;
+            }
+        }
+    }
+    var currentDepartAirport = "";
+    if (ViewBag.Airports != null)
+    {
+        foreach (var airport in ViewBag.Airports)
+        {
+            if (airport.AirportId == Model.DepartureAirportId)
+            {
+                currentDepartAirport = airport.Name;
+            }
+        }
+    }
+    var currentArrivalAirport = "";
+    if (ViewBag.Airports != null)
+    {
+        foreach (var airport in ViewBag.Airports)
+        {
+            if (airport.AirportId == Model.ArrivalAirportId)
+            {
+                currentArrivalAirport = airport.Name;
+            }
+        }
+    }
+}
+<form asp-action="EditFlight" asp-controller="Flight" method="post">
+    <input type="hidden" asp-for="FlightId" />
+    <div class="form-group">
+        <label asp-for="FlightPrice" class="form-label"></label>
+        <input asp-for="FlightPrice" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PassengerTotal" class="form-label"></label>
+        <input asp-for="PassengerTotal" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="TakeOff" class="form-label">Take off time</label>
+        <input asp-for="TakeOff" type="time" class="form-control" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="@Model.AircraftId" class="form-label">Select Aircraft</label>
+        <select id="@Model.AircraftId" name="aircraftId" class="form-select" required>
+            <option value="@Model.AircraftId">@currentAircraft</option>
+            @if(ViewBag.Aircrafts != null)
+            {
+                foreach(var aircraft in ViewBag.Aircrafts)
+                {
+                    if(aircraft.Name != currentAircraft)
+                    {
+                        <option value="@aircraft.AircraftId">@aircraft.Name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="@Model.DepartureAirportId" class="form-label">Select Aircraft</label>
+        <select id="@Model.DepartureAirportId" name="departureAirportId" class="form-select" required>
+            <option value="@Model.DepartureAirportId">@currentDepartAirport</option>
+            @if (ViewBag.Airports != null)
+            {
+                foreach (var airport in ViewBag.Airports)
+                {
+                    if (airport.Name != currentDepartAirport)
+                    {
+                        <option value="@airport.AirportId">@airport.Name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="@Model.ArrivalAirportId" class="form-label">Select Aircraft</label>
+        <select id="@Model.ArrivalAirportId" name="arrivalAirportId" class="form-select" required>
+            <option value="@Model.ArrivalAirportId">@currentArrivalAirport</option>
+            @if (ViewBag.Airports != null)
+            {
+                foreach (var airport in ViewBag.Airports)
+                {
+                    if (airport.Name != currentArrivalAirport)
+                    {
+                        <option value="@airport.AirportId">@airport.Name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <a asp-action="Index">Back to Index</a>
+    <button type="submit" value="Save" class="btn btn-primary">Submit</button>
+</form>

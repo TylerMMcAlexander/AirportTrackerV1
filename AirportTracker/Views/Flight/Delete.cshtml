@@ -1,0 +1,32 @@
+﻿@model Flight
+
+@{
+    var currentDepartAirport = "";
+    if (ViewBag.Airports != null)
+    {
+        foreach (var airport in ViewBag.Airports)
+        {
+            if (airport.AirportId == Model.DepartureAirportId)
+            {
+                currentDepartAirport = airport.Name;
+            }
+        }
+    }
+    var currentArrivalAirport = "";
+    if (ViewBag.Airports != null)
+    {
+        foreach (var airport in ViewBag.Airports)
+        {
+            if (airport.AirportId == Model.ArrivalAirportId)
+            {
+                currentArrivalAirport = airport.Name;
+            }
+        }
+    }
+}
+<h1> Do you wish to delist the flight from @currentDepartAirport to @currentArrivalAirport?</h1>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="FlightId"/>
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index">Back to flight list</a>
+</form>

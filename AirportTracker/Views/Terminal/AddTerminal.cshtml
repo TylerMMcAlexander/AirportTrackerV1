@@ -1,0 +1,26 @@
+﻿@model Terminal
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<p>This is the add terminal page</p>
+
+<form asp-action="AddTerminal" method="post">
+    <div>
+        <label asp-for="AirportId" class="form-label">Airport</label>
+        <select asp-for="AirportId"
+                asp-items="@(new SelectList(ViewBag.Airports, "AirportId", "Name"))" class="form-select"></select>
+        <span asp-validation-for="AirportId" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="TerminalName" asp-class="form-label">Terminal Name</label>
+        <input asp-for="TerminalName" asp-class="form-control" />
+        <span asp-validation-for="TerminalName" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="TerminalId" />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-action="ListTerminal" class="btn btn-primary">Cancel</a>
+</form>

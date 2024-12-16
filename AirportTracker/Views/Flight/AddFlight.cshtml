@@ -1,0 +1,66 @@
+﻿@model Flight
+
+<h2>Add A Flight</h2>
+
+<form asp-action="AddFlight" asp-controller="Flight" method="post">
+    <input type="hidden" asp-for="FlightId"/>
+    <div>
+        <label asp-for="FlightPrice" class="form-label">Flight Price</label>
+        <input asp-for="FlightPrice" class="form-control" />
+        <span asp-validation-for="FlightPrice" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="TakeOff" class="form-label">Take off time</label>
+0        <input asp-for="TakeOff" type="time"  class="form-control" />
+        <span asp-validation-for="TakeOff" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="PassengerTotal" class="form-label">Passenger total</label>
+        <input asp-for="PassengerTotal" class="form-control" />
+        <span asp-validation-for="PassengerTotal" class="text-danger"></span>
+    </div>
+    <div>
+        <select id="@Model.TerminalId" name="terminalId" class="form-select" required>
+            <option value="">--Select A Terminal--</option>
+            @foreach(var terminal in ViewBag.Terminals){
+                <option value="@terminal.TerminalId">@terminal.TerminalName</option>
+            }
+        </select>
+        <span asp-validation-for="TerminalId" class="text-danger"></span>
+    </div>
+    <br />
+    <div>
+        <select id="@Model.AircraftId" name="aircraftId" class="form-select" required>
+        <option value="">--Select Aircraft--</option>
+        @foreach (var aircraft in ViewBag.Aircrafts)
+        {
+            <option value="@aircraft.AircraftId">@aircraft.Name</option>
+        }
+        </select>
+        <span asp-validation-for="AircraftId" class="text-danger"></span>
+    </div>
+    <br />
+    <div>
+        <select id="@Model.DepartureAirportId" name="departureAirportId" class="form-select" required>
+            <option value="">--Select Depart Airport--</option>
+            @foreach (var airport in ViewBag.Airports)
+            {
+                <option value="@airport.AirportId">@airport.Name</option>
+            }
+        </select>
+        <span asp-validation-for="DepartureAirportId" class="text-danger"></span>
+    </div>
+    <br />
+    <div>
+        <select id="@Model.ArrivalAirportId" name="arrivalAirportId" class="form-select" required>
+            <option value="">--Select Arrival Airport--</option>
+            @foreach (var airport in ViewBag.Airports)
+            {
+                <option value="@airport.AirportId">@airport.Name</option>
+            }
+        </select>
+        <span asp-validation-for="ArrivalAirportId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-action="Index" class="btn btn-primary">Cancel</a>
+</form>

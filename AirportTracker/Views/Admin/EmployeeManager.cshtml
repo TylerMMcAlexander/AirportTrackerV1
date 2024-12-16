@@ -1,0 +1,103 @@
+﻿@model List<User>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:10%">ID</th>
+                <th style="width:90%">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 1;
+            }
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@count</td> 
+                    <td>@(user.fName + ", " + user.lName)</td>
+                    <td>
+                        @{
+                            var employees = ViewBag.Employees as Dictionary<User, string>;
+                            if (employees.ContainsKey(user))
+                            {
+                                <strong>Employed</strong>
+                                <p style="font-size:15px;text-align:center">@employees[user]</p>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <!-- Button to open the modal -->
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addEmployeeModal-@user.Id">
+                            <span class="fas fa-edit"></span>&nbsp;Add Employee
+                        </button>
+
+                        <!-- totally chat GPTed this cause i have no idea how to do this but it looks good-->
+                        <div class="modal fade" id="addEmployeeModal-@user.Id" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form asp-action="AddEmployee" asp-controller="Admin" method="post">
+                                            <input type="hidden" name="id" value="@user.Id" />
+
+                                            <div class="mb-3">
+                                                <label for="airportSelect-@user.Id" class="form-label">Select Airport</label>
+                                                <select id="airportSelect-@user.Id" name="airportId" class="form-select" required>
+                                                    <option value="">--Select Airport--</option>
+                                                    @foreach (var airport in ViewBag.Airports)
+                                                    {
+                                                        <option value="@airport.AirportId">@airport.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="positionInput-@user.Id" class="form-label">Position</label>
+                                                <input type="text" class="form-control" id="positionInput-@user.Id" name="position" required />
+                                            </div>
+                                                <input type="checkbox" name="isAdmin" value="True"/> Are they an admin of their airport?
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Add Employee</button>
+                                            </div>
+                                            
+                                        </form>
+                                        
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+                    <td>
+                        <div>
+                            <a asp-action="EditEmployee" asp-controller="Admin" asp-route-id="@user.Id" class="accordion-button">
+                                Edit
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <a asp-action="Delete" asp-controller="Admin" asp-route-id="@user.Id" class="accordion-button" method="get">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                count++; 
+            }
+        </tbody>
+    </table>
+</div>

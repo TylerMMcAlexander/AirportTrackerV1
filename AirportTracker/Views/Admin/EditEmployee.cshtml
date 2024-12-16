@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Employee
+@{
+    var currentAirport = "";
+    if (ViewBag.Airports != null)
+    {
+        foreach (var airport in ViewBag.Airports)
+        {
+            if (airport.AirportId == Model.AirportId)
+            {
+                currentAirport = airport.Name;
+            }
+        }
+    }
+    bool currentRole = false;
+    if(ViewBag.UserIsInRole != null)
+    {
+        if (ViewBag.UserIsInRole == "True")
+        {
+            currentRole = true;
+        }
+    }
+}
+
+<form asp-action="EditEmployee" asp-controller="Admin" method="post" style="margin-left: 10px;">
+    <input type="hidden" asp-for="EmpId" />
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label asp-for="Position" class="form-label"></label>
+        <input asp-for="Position" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="@Model.AirportId" class="form-label">Select Airport</label>
+        <select id="@Model.AirportId" name="airportId" class="form-select" required>
+            <option value="@Model.AirportId">@currentAirport</option>
+            @if(ViewBag.Airports != null){
+            foreach(var airport in ViewBag.Airports)
+            {
+                if(airport.Name != currentAirport){
+                <option value="@airport.AirportId">@airport.Name</option>
+                }
+            } }
+        </select>
+        @if (currentRole) {
+            <input type="checkbox" name="isAdmin" value="True" checked/>
+            <div>Are they an admin of their airport ?</div>
+        } else
+        {
+            <input type="checkbox" name="isAdmin" value="True"/>
+            <div>Are they an admin of their airport ?</div>
+        }
+    </div>
+    <a asp-action="Index">Back to Index</a>
+    <button type="submit" value="Save" class="btn btn-primary">Submit</button>
+</form>

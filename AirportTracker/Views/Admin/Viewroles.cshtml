@@ -1,0 +1,31 @@
+﻿@model IList<string> 
+
+@{
+    ViewData["Title"] = "User Roles";
+}
+
+<div class="container">
+    <h1>User Roles</h1>
+    @if (Model != null && Model.Count > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td>@role</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No roles found for this user.</p>
+    }
+</div>

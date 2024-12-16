@@ -1,0 +1,81 @@
+﻿@model List<Airport>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    if (ViewBag.FilterType == null)
+    {
+        ViewBag.FilterType = "AirportName";
+    }
+}
+<div style="margin-left:10px;">
+<h2>List of Airports</h2>
+<div>
+    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#filterTypeModal">
+        <span class="fas fa-edit"></span>&nbsp;Change Filter Type
+    </button>
+    <div class="modal fade" id="filterTypeModal" tabindex="-1" aria-labelledby="filterTypeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterTypeModalLabel">Change Filter Type</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="filterType" asp-controller="Airport" method="post">
+                        <select id="@ViewBag.FilterType" name="filterType" class="form-slect">
+                            <option id="AirportName" value="AirportName">Airport Name</option>
+                            <option id="AirportState" value="AirportState">Airport State</option>
+                            <option id="AirportCity" value="AirportCity">Airport City</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Change Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="inputBox">
+    <form asp-action="FilterData" asp-controller="Airport">
+        <input type="text" name="SearchString" id="inputBox" />
+        <input type="hidden" name="filterType" value="@ViewBag.FilterType" />
+        <input type="submit" class="button" value="Filter" class="btn btn-primary" />
+    </form>
+</div>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="AddAirport" asp-controller="Airport">Add Airport</a>
+    <a asp-action="AddTerminal" asp-controller="Terminal">Add Terminal</a>
+    <a asp-action="ListTerminal" asp-controller="Terminal">List of Terminals</a>
+}
+</div>
+
+<table class="table table-bordered table-striped" style="margin-bottom:160px;">
+    <thead>
+        <tr>
+            <th>Airport Name</th>
+            <th>Airport Location</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var airport in Model)
+        {
+            <tr>
+                <td><a asp-action="ViewAirport" asp-controller="Airport" asp-route-id="@airport.AirportId">@airport.Name, @airport.Shorthand</a></td>
+                <td>@airport.City, @airport.State</td>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="DeleteAirport" asp-controller="Airport" asp-route-id="@airport.AirportId">Delete Airport</a> |
+                        <a asp-action="EditAirport" asp-controller="Airport" asp-route-id="@airport.AirportId">Edit Airport</a>
+                    </td>
+                }
+
+            </tr>
+        }
+
+    </tbody>
+</table>

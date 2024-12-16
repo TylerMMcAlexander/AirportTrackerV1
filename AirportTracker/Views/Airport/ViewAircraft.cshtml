@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AirportTracker.Models.Aircraft>
+
+<h2 style="padding-left:10px;">Aircraft Departing from Airport</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Aircraft ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Capacity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var aircraft in Model)
+        {
+            <tr>
+                <td>@aircraft.AircraftId</td>
+                <td>@aircraft.Name</td>
+                <td>@aircraft.Type</td>
+                <td>@aircraft.Capacity</td>
+            </tr>
+        }
+    </tbody>
+</table>

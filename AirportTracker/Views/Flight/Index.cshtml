@@ -1,0 +1,189 @@
+﻿@model List<Flight>
+@{
+    var currentAircraft = "";
+    var currentDepartAirport = "";
+    var currentArrivalAirport = "";
+    var currentDepartState = "";
+    var currentArrivalState = "";
+
+    if(ViewBag.FilterType == null)
+    {
+        ViewBag.FilterType = "Id";
+    }
+
+}
+<h2>Upcoming Flights</h2>
+@if (ViewBag.NextFlightNotification != null)
+{
+    <div class="alert alert-info">
+        <strong>Notification:</strong> @ViewBag.NextFlightNotification
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div>
+    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#filterTypeModal">
+        <span class="fas fa-edit"></span>&nbsp;Change Filter Type
+    </button>
+    <div class="modal fade" id="filterTypeModal" tabindex="-1" aria-labelledby="filterTypeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterTypeModalLabel">Change Filter Type</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="filterType" asp-controller="Flight" method="post">
+                    <select id="@ViewBag.FilterType" name="filterType" class="form-slect">
+                        <option id="Id" value="Id">Flight Id</option>
+                        <option id="DepartureState" value="DepartureState">Flight Departure Airport</option>
+                        <option id="ArrivalState" value="ArrivalState"> Flight Arrival Airport</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Change Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="inputBox">
+    <form asp-action="FilterData" asp-controller="Flight">
+        <input type="text" name="SearchString" id="inputBox" />
+        <input type="hidden" name="filterType" value="@ViewBag.FilterType" />
+        <input type="submit" class="button" value="Filter" class="btn btn-primary" />
+    </form>
+</div>
+<div>
+
+<div class="listContainer">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Departure Airport</th>
+                <th>Arrival Airport</th>
+                <th>Flight Price</th>
+                <th>Terminal Number</th>
+                <th>Flight Starting Location</th>
+                <th>Flight Ending Location</th>
+                <th>Flight Passenger Capacity</th>
+                <th>Remaining Seats</th>
+                <th>Flight Take off time</th>
+                <th>Flight Aircraft</th>
+
+                @if (User.IsInRole("Admin"))
+                {
+                <th></th>
+                <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var flight in Model)
+            {
+                <tr>
+                        <td>
+                            @if (ViewBag.Airports != null)
+                            {
+                                foreach (var airport in ViewBag.Airports)
+                                {
+                                    if (airport.AirportId == flight.DepartureAirportId)
+                                    {
+                                        currentDepartAirport = airport.Name;
+                                    }
+                                }
+                            }
+                            @currentDepartAirport
+                        </td>
+                        <td>
+                            @if (ViewBag.Airports != null)
+                            {
+                                foreach (var airport in ViewBag.Airports)
+                                {
+                                    if (airport.AirportId == flight.ArrivalAirportId)
+                                    {
+                                        currentArrivalAirport = airport.Name;
+                                    }
+                                }
+                            }
+                            @currentArrivalAirport
+                        </td>
+                    <td>@flight.FlightPrice</td>
+                    <td>@flight.Terminal?.TerminalName</td>
+                    <td>
+                        @if (ViewBag.Airports != null)
+                        {
+                            foreach (var airport in ViewBag.Airports)
+                            {
+                                if (airport.AirportId == flight.DepartureAirportId)
+                                {
+                                    currentDepartState = airport.City + ", " + airport.State;
+                                }
+                            }
+                        }
+                        @currentDepartState
+                    </td>
+                    <td>
+                        @if (ViewBag.Airports != null)
+                        {
+                            foreach (var airport in ViewBag.Airports)
+                            {
+                                if (airport.AirportId == flight.ArrivalAirportId)
+                                {
+                                    currentArrivalState = airport.City + ", " + airport.State;
+                                }
+                            }
+                        }
+                        @currentArrivalState
+                    </td>
+                        <td>@flight.PassengerTotal</td>
+                    <td>@(@flight.PassengerTotal - @flight.PassengerCount)</td>
+                    <td>@flight.TakeOff</td>
+                    <td>
+                        @if (ViewBag.Aircrafts != null)
+                        {
+                            foreach (var aircrafts in ViewBag.Aircrafts)
+                            {
+                                if (aircrafts.AircraftId == flight.AircraftId)
+                                {
+                                    currentAircraft = aircrafts.Name;
+                                }
+                            }
+                        }
+                        @currentAircraft
+                    </td>
+                    
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <div>
+                                <a asp-action="EditFlight" asp-controller="Flight" asp-route-id="@flight.FlightId" class="accordion-button">
+                                    Edit
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <a asp-action="Delete" asp-controller="Flight" asp-route-id="@flight.FlightId" class="accordion-button" method="get">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    }
+                    <td>
+                        @if(User.Identity.IsAuthenticated || User.IsInRole("Admin"))
+                        {
+                                <div>
+                                    <a asp-action="BookFlight" asp-controller="Flight" asp-route-flightId="@flight.FlightId">Book Flight</a>
+                                </div>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+</div>

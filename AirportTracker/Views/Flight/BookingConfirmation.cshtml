@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Booking
+
+<h2>Booking Confirmation</h2>
+
+<p>Your booking is confirmed.</p>
+<p>Flight: @Model.Flight.DisplayLocation</p>
+<p>Number of Seats: @Model.NumberOfSeats</p>
+<p>Booking Date: @Model.BookingDate</p>
+<a asp-controller="Flight" asp-action="Index" class="btn btn-primary">Return To Flights</a>
+<a asp-controller="Flight" asp-action="MyBookings" class="btn btn-primary"> Proceed To My Bookings</a>

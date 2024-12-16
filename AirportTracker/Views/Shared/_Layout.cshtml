@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AirportTracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/js/site.js" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AirportTracker.styles.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3 p-0">
+            <div class="container-fluid">
+                <span class="ml-3 text-primary">@ViewBag.Greeting</span>
+                <img src="@Url.Content("~/images/icon.png")" alt="Image 1" class="icon" />
+                <a class="navTitle" asp-area="" asp-controller="Home" asp-action="Index">Airport Listings</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="z-index: 5;">
+                    <ul class="tabHeader">
+                        <li class="nav-item nav-button">
+                            <a class="" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Index">Flights</a>
+                        </li>
+                        <div class="nav-item" style="position: relative; display: inline-block;">
+                        <li style="position:relative; width:auto;" class="nav-item nav-button airportList"><a>Select an Airport</a></li>
+                            @{
+                                var airports = (List<AirportTracker.Models.Airport>)ViewBag.Airports; 
+                            }
+                            <ul class="ulAirportList">
+                                @foreach (var airport in airports.Take(4)) // Get the first 4 airports
+                                {
+                                <li class="nav-button airportListItem" data-value="@airport.AirportId">
+                                    <a asp-action="ViewAirport" asp-controller="Airport" asp-route-id="@airport.AirportId">@airport.Shorthand</a>
+                                </li>
+                                }
+                            <li class="nav-button airportListItem"><a asp-action="ListAirport" asp-controller="Airport">See More...</a></li>
+                            </ul>
+
+                        </div>
+                        @if (User.IsInRole("Admin") || User.IsInRole("AirportAdmin"))
+                        {
+                            <li class="nav-item nav-button">
+                                <a asp-action="EmployeeManager" asp-controller="Admin" asp-area="" style="white-space: nowrap; display: inline-flex; align-items: center;">
+                                    <span class="fas fa-edit" style="margin-right: 8px;"></span>Users
+                                </a>
+
+                            </li>
+                            <li class="nav-item nav-button">
+                                <a asp-action="AddFlight" asp-controller="Flight" asp-area="">
+                                    <span class="fas fa-edit"></span>&nbsp;Add Flight 
+                                </a>
+                            </li>
+                    <li class="nav-item nav-button">
+                        <a asp-action="ListAircraft" asp-controller="Aircraft" asp-area="">
+                            <span class="fas fa-edit"></span>&nbsp;View Aircraft
+                        </a>
+                    </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <ul class="tabHeader">
+            <div class="accountManager">
+                            @using Microsoft.AspNetCore.Identity
+                            @inject SignInManager<User> signInManager
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item nav-button">
+                        <a class="" asp-area="" asp-controller="Flight" asp-action="MyBookings">My Bookings</a>
+                    </li>
+                    <li class="nav-item nav-button">
+                        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color:white;">Log Out</a>
+                        <form id="logout-form" method="post" asp-action="Logout" asp-controller="Account" asp-area="" style="display: none;">
+                            <button type="submit" class="btn">Log Out</button>
+                        </form>
+                    </li>
+                    <li class="nav-button nav-item">
+                        <a href="#" class="nav-link" style="color:white;" onclick="event.preventDefault();">@User.Identity.Name</a>
+                    </li>
+                }
+                else
+                    {
+                        var action = ViewContext.RouteData.Values["action"]?.ToString();
+                    <li class="nav-item nav-button">
+                        <a asp-action="Register" asp-controller="Account" asp-area="" class="nav-link">
+                            <span class="fas fa-edit"></span>&nbsp;Register
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-button">
+                        <a asp-action="Login" asp-controller="Account" asp-area="" class="btn">
+                            Log In
+                        </a>
+                    </li>
+                    }
+                </div>
+                </ul>
+        </nav>
+    </header>
+    <div>
+        <main role="main" class="pb-3" style="z-index: 1">
+            @RenderBody()
+        </main>
+    </div>
+    <img src="@Url.Content("~/images/flow.png")" alt="Image 1" class="image" />
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

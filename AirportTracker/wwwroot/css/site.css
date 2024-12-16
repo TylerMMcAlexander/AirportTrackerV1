@@ -1,0 +1,202 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+nav {
+    background-color: deepskyblue;
+}
+
+.image {
+    width: 100%;
+    bottom: 0px;
+    height: 30%;
+    position: absolute;
+    z-index: -1
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    margin-right: 30px;
+}
+
+.accountManager {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.tabHeader {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-start;
+    height: 75px;
+}
+
+.nav-button:hover {
+    background-color: dodgerblue;
+    border-bottom-color: white;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    color: white;
+}
+
+.nav-button {
+    width: 100px;
+    height: 100%;
+    background-color: deepskyblue;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .nav-button a {
+        color: white;
+        text-decoration: none;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 20px;
+    }
+
+        .nav-button a:hover {
+            color: white;
+        }
+
+.backgroundImage {
+    width: 100%;
+    top: 0px;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    opacity: 50%;
+}
+
+.formLabel {
+    background-color: rgba(105, 105, 105, 0.7);
+    width: 170px;
+    color: white;
+    padding: 4px;
+    text-align: left;
+    border-radius: 5px;
+    margin-bottom: 4px;
+    padding-left: 20px;
+}
+
+
+.registerInput {
+    margin-left: 20px;
+}
+
+.navTitle {
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+    .navTitle:hover {
+        color: white;
+    }
+
+.airportList {
+    padding: 10px;
+}
+
+    .airportList:hover + .ulAirportList {
+        visibility: visible;
+        background-color: deepskyblue;
+    }
+
+.ulAirportList {
+    visibility: hidden;
+    padding-left: 0;
+    z-index: 5;
+}
+
+.airportListItem {
+    background-color: deepskyblue;
+    width: 100%;
+    padding: 20px;
+    list-style-type: none;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.ulAirportList:hover {
+    visibility: visible;
+    background-color: deepskyblue;
+}
+
+.airport-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.sideTab {
+    color: white;
+    background-color: cornflowerblue;
+    width: 130px;
+    height: 70px;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 3px;
+}
+
+    .sideTab:hover {
+        background-color: lightblue;
+        border-right: 3px solid white;
+    }
+
+.departureBoard {
+    position: absolute;
+    width: 450px;
+    height: 300px;
+    right: 100px;
+    top: 150px;
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+}
+
+.airportEmbed {
+    position: absolute;
+    left: 150px;
+    top: 160px;
+}
+
+.airportDescription {
+    position: absolute;
+    left: 570px;
+    width:400px;
+    top: 160px;
+    background-color: darkgray;
+    border-radius: 8px;
+    padding: 5px;
+}

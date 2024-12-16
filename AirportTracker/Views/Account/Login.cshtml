@@ -1,0 +1,59 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AirportTracker.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <img src="@Url.Content("~/images/registerBackground.webp")" alt="registerBackground" class="backgroundImage" />
+
+    <form method="post" asp-action="LogIn" asp-route-returnUrl="@Model.ReturnUrl">
+        <div class="container d-flex justify-content-center">
+            <div class="col-md-6">
+                <!-- Username -->
+                <div class="row mb-2 text-center">
+                    <label class="col-form-label formLabel">Username:</label>
+                    <input asp-for="Username" class="form-control registerInput" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="row mb-2 text-center">
+                    <label class="col-form-label formLabel">Password:</label>
+                    <input type="password" asp-for="Password" class="form-control registerInput" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="row mb-2 text-center">
+                    <div class="col">
+                        <input type="checkbox" asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label">Remember Me</label>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="row mb-2 text-center">
+                    <div class="col">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Log In</button>
+                    </div>
+                </div>
+
+                <!-- Register Link -->
+                <div class="row text-center">
+                    <div class="col">
+                        Not registered? <a asp-action="Register">Register as a new user</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

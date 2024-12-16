@@ -1,0 +1,18 @@
+﻿
+@model Employee
+@{
+}
+<h1>Delete?</h1>
+<h3>Do you wish to delete this employee?</h3>
+<div>
+    <h4>Employee</h4>
+    <dl class="row">
+        EmployeeName: @Html.DisplayFor(model => model.User.fName) @Html.DisplayFor(model => model.User.lName)
+        EmployeeID: @Html.DisplayFor(model => model.EmpId)
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="EmpId" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index">Go back to list</a>
+    </form>
+</div>

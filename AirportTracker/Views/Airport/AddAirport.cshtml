@@ -1,0 +1,66 @@
+﻿@model Airport
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<p>This is the add flight page</p>
+
+@if (ViewBag.Errors != null && ViewBag.Errors.Count > 0)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewBag.Errors)
+            {
+                <li>@error</li> <!-- Display each error message individually -->
+            }
+        </ul>
+    </div>
+}
+
+
+<form  enctype="multipart/form-data" asp-action="AddAirport" method="post">
+    <input type="hidden" asp-for="AirportId" />
+    <div>
+        <label asp-for="Name" class="form-label">Name of Airport</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Shorthand" class="form-label">Shorthand of Airport</label>
+        <input asp-for="Shorthand" class="form-control" />
+        <span asp-validation-for="Shorthand" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="City" class="form-label">Name of City</label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="State" class="form-label">Name of State</label>
+        <input asp-for="State" class="form-control" />
+        <span asp-validation-for="State" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Description" class="form-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="VideoURL" class="form-label">Video showcasing airport (Must be a embed link from youtube)</label>
+        <input asp-for="VideoURL" class="form-control"/>
+        <span asp-validation-for="VideoURL" class="text-danger"></span>
+    </div>
+    <div>
+    <label asp-for="Photo" class="control-label"></label>
+    <div class="custom-file">
+        <input asp-for="Photo" class="form-control" value="Photo" />
+            <span asp-validation-for="Photo" class="text-danger"></span>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-action="ListAirport" class="btn btn-primary">Cancel</a>
+</form>

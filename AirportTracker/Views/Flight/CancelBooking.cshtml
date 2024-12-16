@@ -1,0 +1,11 @@
+﻿@model Booking
+<h2>Cancel Booking</h2>
+
+<form asp-action="ConfirmCancelBooking" method="post">
+    <input type="hidden" asp-for="BookingId" />
+    <h2>@Model.Flight.DisplayLocation, @Model.BookingDate</h2>
+    <h2>@Model.NumberOfSeats, @Model.Flight.FlightPrice.ToString("C2")</h2>
+
+    <button type="submit" class="btn btn-primary">Cancel Flight</button>
+    <a asp-action="MyBookings" class="btn btn-primary">Return To My Bookings</a>
+</form>

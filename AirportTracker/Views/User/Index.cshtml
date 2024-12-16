@@ -1,0 +1,30 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = " | Manage Users";
+}
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1 class="mb-2">Manage Roles</h1>
+
+@if (Model.Roles.Count() == 0)
+{
+    <form method="post" asp-action="CreateAdminRole">
+        <button type="submit" class="btn btn-primary">
+            Create Admin Role
+        </button>
+    </form>
+    <form method="post" asp-action="CreateEmployeeRole">
+        <button type="submit" class="btn btn-primary">
+            Create Employee Role
+        </button>
+    </form>
+}
+else
+{
+    <h2>Admin Role already exists.</h2>
+}

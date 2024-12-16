@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model MyBookingsViewModel
+
+<h2>My Bookings</h2>
+@if(Model.UpcomingFlights.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Flight</th>
+                <th>Price</th>
+                <th>Number of Seats</th>
+                <th>Booking Date</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var booking in Model.UpcomingFlights)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.Flight?.DisplayLocation</td>
+                    <td>@booking.Flight.FlightPrice</td>
+                    <td>@booking.NumberOfSeats</td>
+                    <td>@booking.BookingDate.ToString("MM/dd/yyyy")</td>
+                    <td><a asp-action="CancelBooking" asp-controller="Flight" asp-route-id="@booking.BookingId">Cancel Flight</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>You have no bookings yet.</p>
+}
+
+
+@if (Model.PriorFlights.Any())
+{
+    <h2>Prior Bookings</h2>
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Flight</th>
+                    <th>Number of Seats</th>
+                    <th>Booking Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var booking in Model.PriorFlights)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.Flight?.DisplayLocation</td>
+                        <td>@booking.NumberOfSeats</td>
+                        <td>@booking.BookingDate.ToString("MM/dd/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+<a asp-action="Index" asp-controller="Flight" class="btn btn-primary">Return To Flights</a>

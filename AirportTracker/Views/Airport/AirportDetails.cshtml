@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Airport
+@{
+    string photoImage = "";
+    if (Model.FileName != null)
+    {
+        photoImage = "~/images/Airports/" + (Model.FileName ?? "NoImage.jpg");
+    }
+    else
+    {
+        photoImage = "~/Images/" + "NoImage.jpg";
+    }
+}
+<html>
+    <head>
+
+    </head>
+@if (photoImage == "~/Images/NoImage.jpg")
+{
+    <img src="@Url.Content($"~/images/Airports/{ViewBag.Airport.Shorthand}.png")
+    " alt="registerBackground" class="backgroundImage" />
+}
+else
+{
+    <img src="@photoImage" alt="registerBackground" class="backgroundImage" asp-append-version="true" />
+}
+<body style="z-index:2;">
+
+        <div class="airport-info">
+        <h2 style="background-color:deepskyblue; opacity:95%; color:#474747; border-radius:5px; padding: 5px;">
+            @ViewBag.Airport.Name
+        </h2>
+        <h5 style="margin-top:15px; color:white; margin-left: 8px; background-color:darkgray; border-radius:4px; padding: 5px;">
+            @ViewBag.Airport.City, @ViewBag.Airport.State
+        </h5>
+    </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="sideTab">
+            <a asp-action="ViewAircraft" 
+            asp-controller="Airport"
+               asp-route-id="@ViewBag.Airport.AirportId"
+            style="width: 100%; height: 100%; text-decoration: none; justify-content:center; text-align:center; color:white;">
+                <h4>View Aircraft</h4>
+            </a>
+        </div>
+    }
+
+    <div class="departureBoard">
+        <h5 class="border-white text-center padding-bottom:2px;" style="color:#eff22e;">Departures</h5>
+        <table style="width:100%; text-align:center;">
+            <tr style="padding-bottom: 3px; border-bottom:1px solid white;">
+                <th style="padding-bottom:3px; width:33%">Time</th>
+                <th style="padding-bottom:3px; width:33%">Destination</th>
+                <th style="padding-bottom:3px; width:33%">Gate</th>
+            </tr>
+            @for (int i = 0; i < ViewBag.Departures.Count; i++)
+            {
+                var rowColor = i % 2 == 0 ? "#383838" : "transparent"; // Alternate row color
+
+                <tr style="background-color:@rowColor;">
+                    <td>@ViewBag.Departures[i].TakeOff.ToString("hh:mm tt")</td>
+                    <td style="color:#eff22e;">@ViewBag.Departures[i].ArrivalAirport</td>
+
+                    <td>@ViewBag.Departures[i].DisplayLocation</td>s
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="video-container airportEmbed">
+        <iframe width="400"
+                height="250"
+                src="@ViewBag.Airport.VideoURL"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+    </div>
+    <p class="airportDescription">@ViewBag.Airport.Description</p>
+</body>
+</html>
